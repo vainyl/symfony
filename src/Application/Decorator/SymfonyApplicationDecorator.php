@@ -17,7 +17,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Symfony\Bridge\PsrHttpMessage\HttpFoundationFactoryInterface;
 use Symfony\Bridge\PsrHttpMessage\HttpMessageFactoryInterface;
 use Symfony\Component\HttpKernel\Kernel;
-use Vainyl\Core\Application\Decorator\AbstractApplicationDecorator;
+use Vainyl\Http\Application\Decorator\AbstractHttpApplicationDecorator;
 use Vainyl\Http\Application\HttpApplicationInterface;
 
 /**
@@ -25,7 +25,7 @@ use Vainyl\Http\Application\HttpApplicationInterface;
  *
  * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
  */
-class SymfonyApplicationDecorator extends AbstractApplicationDecorator
+class SymfonyApplicationDecorator extends AbstractHttpApplicationDecorator
 {
     private $psrFactory;
 
