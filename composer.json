@@ -15,10 +15,10 @@
     "require": {
         "symfony/symfony": "^3.3",
         "symfony/psr-http-message-bridge": "^1",
-        "vainyl/core": "dev-master",
-        "vainyl/di": "dev-master",
-        "vainyl/http": "dev-master",
-        "vainyl/time": "dev-master"
+        "vainyl/core": "0.1.x-dev",
+        "vainyl/di": "0.1.x-dev",
+        "vainyl/http": "0.1.x-dev",
+        "vainyl/time": "0.1.x-dev"
     },
     "repositories": [
         {
