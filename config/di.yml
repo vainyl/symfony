@@ -1,9 +1,9 @@
 services:
-  app.http.phalcon:
+  app.http.symfony:
     decorates: app.http
     decoration_priority: 1000
     class: Vainyl\Symfony\Application\Decorator\SymfonyApplicationDecorator
-    arguments: ['@app.http.phalcon.inner', '@psr.factory', '@symfony.factory', '@kernel']
+    arguments: ['@app.http.symfony.inner', '@psr.factory', '@symfony.factory', '@kernel']
   psr.factory:
     class: Symfony\Bridge\PsrHttpMessage\Factory\DiactorosFactory
   symfony.factory:
