@@ -29,6 +29,14 @@ abstract class AbstractSymfonyKernel extends Kernel
     }
 
     /**
+     * @return SymfonyEnvironmentInterface
+     */
+    public function getAppEnvironment(): SymfonyEnvironmentInterface
+    {
+        return $this->appEnvironment;
+    }
+
+    /**
      * @inheritDoc
      */
     public function registerBundles()
