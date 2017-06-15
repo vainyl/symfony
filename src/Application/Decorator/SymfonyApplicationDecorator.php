@@ -10,22 +10,22 @@
  */
 declare(strict_types=1);
 
-namespace Vainyl\Symfony\Application;
+namespace Vainyl\Symfony\Application\Decorator;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Symfony\Bridge\PsrHttpMessage\HttpFoundationFactoryInterface;
 use Symfony\Bridge\PsrHttpMessage\HttpMessageFactoryInterface;
 use Symfony\Component\HttpKernel\Kernel;
-use Vainyl\Core\Application\AbstractApplication;
+use Vainyl\Core\Application\Decorator\AbstractApplicationDecorator;
 use Vainyl\Http\Application\HttpApplicationInterface;
 
 /**
- * Class SymfonyApplication
+ * Class SymfonyApplicationDecorator
  *
  * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
  */
-class SymfonyApplication extends AbstractApplication implements HttpApplicationInterface
+class SymfonyApplicationDecorator extends AbstractApplicationDecorator
 {
     private $psrFactory;
 
@@ -36,11 +36,13 @@ class SymfonyApplication extends AbstractApplication implements HttpApplicationI
     /**
      * SymfonyApplication constructor.
      *
+     * @param HttpApplicationInterface       $httpApplication ,
      * @param HttpMessageFactoryInterface    $psrFactory
      * @param HttpFoundationFactoryInterface $symfonyFactory
      * @param Kernel                         $kernel
      */
     public function __construct(
+        HttpApplicationInterface $httpApplication,
         HttpMessageFactoryInterface $psrFactory,
         HttpFoundationFactoryInterface $symfonyFactory,
         Kernel $kernel
@@ -48,6 +50,7 @@ class SymfonyApplication extends AbstractApplication implements HttpApplicationI
         $this->psrFactory = $psrFactory;
         $this->symfonyFactory = $symfonyFactory;
         $this->appKernel = $kernel;
+        parent::__construct($httpApplication);
     }
 
     /**
