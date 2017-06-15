@@ -15,6 +15,7 @@
     "require": {
         "symfony/symfony": "^3.3",
         "symfony/psr-http-message-bridge": "^1",
+        "zendframework/zend-diactoros" : "^1.4",
         "vainyl/core": "0.1.x-dev",
         "vainyl/di": "0.1.x-dev",
         "vainyl/http": "0.1.x-dev",
