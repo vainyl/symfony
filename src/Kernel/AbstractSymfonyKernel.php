@@ -3,6 +3,8 @@
 namespace Vainyl\Symfony\Kernel;
 
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
+use Symfony\Component\Config\Loader\LoaderInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Kernel;
 use Vainyl\Symfony\Application\SymfonyEnvironmentInterface;
 
@@ -50,6 +52,17 @@ abstract class AbstractSymfonyKernel extends Kernel
     protected function getContainerBuilder()
     {
         return (new \Vainyl\Symfony\Container\Factory\SymfonyContainerFactory(parent::getContainerBuilder()))->createContainer($this->appEnvironment);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function configureContainer(ContainerBuilder $c, LoaderInterface $loader)
+    {
+        foreach ($this->getAppEnvironment()->getExtensions() as $extension) {
+            $loader->load($extension->getConfigDirectory() . DIRECTORY_SEPARATOR . 'di.yml');
+        }
+
     }
 
     /**
