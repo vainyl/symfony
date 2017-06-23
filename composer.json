@@ -14,12 +14,12 @@
     },
     "require": {
         "symfony/symfony": "^3.3",
-        "vainyl/core": "dev-master",
-        "vainyl/database": "dev-master",
-        "vainyl/di": "dev-master",
-        "vainyl/event": "dev-master",
-        "vainyl/http": "dev-master",
-        "vainyl/time": "dev-master"
+        "symfony/psr-http-message-bridge": "^1",
+        "zendframework/zend-diactoros" : "^1.4",
+        "vainyl/core": "0.1.x-dev",
+        "vainyl/di": "0.1.x-dev",
+        "vainyl/http": "0.1.x-dev",
+        "vainyl/time": "0.1.x-dev"
     },
     "repositories": [
         {
