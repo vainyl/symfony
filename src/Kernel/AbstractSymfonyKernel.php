@@ -66,7 +66,7 @@ abstract class AbstractSymfonyKernel extends Kernel
             $loader->load($extension->getConfigDirectory() . DIRECTORY_SEPARATOR . 'services.yml');
         }
 
-        $loader->load($this->getAppEnvironment()->getConfigDirectory() . DIRECTORY_SEPARATOR . 'services.yml');
+        $loader->load($this->getAppEnvironment()->getConfigDirectory() . DIRECTORY_SEPARATOR . 'config.yml');
     }
 
     /**
