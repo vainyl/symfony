@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Vainyl\Symfony\Application;
 
-use Symfony\Component\HttpKernel\Bundle\Bundle;
+use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Vainyl\Core\Application\EnvironmentInterface;
 
 /**
@@ -23,7 +23,7 @@ use Vainyl\Core\Application\EnvironmentInterface;
 interface SymfonyEnvironmentInterface extends EnvironmentInterface
 {
     /**
-     * @return Bundle[]
+     * @return BundleInterface[]
      */
     public function getBundles() : array;
 

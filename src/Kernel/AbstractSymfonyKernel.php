@@ -3,6 +3,7 @@
 namespace Vainyl\Symfony\Kernel;
 
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
+use Symfony\Component\Routing\RouteCollectionBuilder;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Kernel;
@@ -51,7 +52,9 @@ abstract class AbstractSymfonyKernel extends Kernel
      */
     protected function getContainerBuilder()
     {
-        return (new \Vainyl\Symfony\Container\Factory\SymfonyContainerFactory(parent::getContainerBuilder()))->createContainer($this->appEnvironment);
+        return (new \Vainyl\Symfony\Container\Factory\SymfonyContainerFactory(
+            parent::getContainerBuilder()
+        ))->createContainer($this->appEnvironment);
     }
 
     /**
@@ -60,9 +63,18 @@ abstract class AbstractSymfonyKernel extends Kernel
     protected function configureContainer(ContainerBuilder $c, LoaderInterface $loader)
     {
         foreach ($this->getAppEnvironment()->getExtensions() as $extension) {
-            $loader->load($extension->getConfigDirectory() . DIRECTORY_SEPARATOR . 'di.yml');
+            $loader->load($extension->getConfigDirectory() . DIRECTORY_SEPARATOR . 'services.yml');
         }
 
+        $loader->load($this->getAppEnvironment()->getConfigDirectory() . DIRECTORY_SEPARATOR . 'config.yml');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function configureRoutes(RouteCollectionBuilder $routes)
+    {
+        $routes->import($this->getAppEnvironment()->getConfigDirectory() . DIRECTORY_SEPARATOR . 'routing.yml');
     }
 
     /**
