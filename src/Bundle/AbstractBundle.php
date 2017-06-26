@@ -14,7 +14,7 @@ namespace Vainyl\Symfony\Bundle;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle as AbstractSymfonyBundle;
-use Vainyl\Core\NameableInterface;
+use Twig\Extension\ExtensionInterface;
 use Vainyl\Symfony\Application\SymfonyEnvironmentInterface;
 
 /**
@@ -22,7 +22,7 @@ use Vainyl\Symfony\Application\SymfonyEnvironmentInterface;
  *
  * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
  */
-class AbstractBundle extends AbstractSymfonyBundle implements NameableInterface
+class AbstractBundle extends AbstractSymfonyBundle
 {
     private $environment;
 
@@ -50,6 +50,18 @@ class AbstractBundle extends AbstractSymfonyBundle implements NameableInterface
     public function getId(): string
     {
         return spl_object_hash($this);
+    }
+
+    /**
+     * Creates the bundle's container extension.
+     *
+     * @return ExtensionInterface|null
+     */
+    protected function createContainerExtension()
+    {
+        if (class_exists($class = $this->getContainerExtensionClass())) {
+            return new $class($this->environment);
+        }
     }
 
     /**
