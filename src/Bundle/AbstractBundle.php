@@ -14,7 +14,8 @@ namespace Vainyl\Symfony\Bundle;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle as AbstractSymfonyBundle;
-use Twig\Extension\ExtensionInterface;
+use Vainyl\Core\Application\EnvironmentInterface;
+use Vainyl\Core\Extension\ExtensionInterface;
 use Vainyl\Symfony\Application\SymfonyEnvironmentInterface;
 
 /**
@@ -22,7 +23,7 @@ use Vainyl\Symfony\Application\SymfonyEnvironmentInterface;
  *
  * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
  */
-class AbstractBundle extends AbstractSymfonyBundle
+class AbstractBundle extends AbstractSymfonyBundle implements ExtensionInterface
 {
     private $environment;
 
@@ -37,9 +38,9 @@ class AbstractBundle extends AbstractSymfonyBundle
     }
 
     /**
-     * @return SymfonyEnvironmentInterface
+     * @inheritDoc
      */
-    public function getEnvironment(): SymfonyEnvironmentInterface
+    public function getEnvironment(): EnvironmentInterface
     {
         return $this->environment;
     }
@@ -59,9 +60,12 @@ class AbstractBundle extends AbstractSymfonyBundle
      */
     protected function createContainerExtension()
     {
-        if (class_exists($class = $this->getContainerExtensionClass())) {
-            return new $class($this->environment);
+        if (false === class_exists($class = $this->getContainerExtensionClass())) {
+            return null;
+
         }
+
+        return new $class($this->environment);
     }
 
     /**
@@ -91,6 +95,14 @@ class AbstractBundle extends AbstractSymfonyBundle
     public function getDirectory(): string
     {
         return dirname((new \ReflectionClass(get_class($this)))->getFileName());
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getCompilerPasses(): array
+    {
+        return [];
     }
 
     /**
