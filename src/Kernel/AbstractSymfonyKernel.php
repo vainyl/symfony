@@ -62,7 +62,6 @@ abstract class AbstractSymfonyKernel extends Kernel
         foreach ($this->getAppEnvironment()->getExtensions() as $extension) {
             $loader->load($extension->getConfigDirectory() . DIRECTORY_SEPARATOR . 'services.yml');
         }
-
     }
 
     /**
