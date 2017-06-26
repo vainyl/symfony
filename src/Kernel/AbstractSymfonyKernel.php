@@ -60,7 +60,7 @@ abstract class AbstractSymfonyKernel extends Kernel
     protected function configureContainer(ContainerBuilder $c, LoaderInterface $loader)
     {
         foreach ($this->getAppEnvironment()->getExtensions() as $extension) {
-            $loader->load($extension->getConfigDirectory() . DIRECTORY_SEPARATOR . 'di.yml');
+            $loader->load($extension->getConfigDirectory() . DIRECTORY_SEPARATOR . 'services.yml');
         }
 
     }
