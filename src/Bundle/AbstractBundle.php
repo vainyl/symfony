@@ -65,6 +65,14 @@ class AbstractBundle extends AbstractSymfonyBundle
     }
 
     /**
+     * @return string
+     */
+    public function getResourcesDirectory(): string
+    {
+        return $this->getDirectory() . DIRECTORY_SEPARATOR . 'Resources';
+    }
+
+    /**
      * @inheritDoc
      */
     public function build(ContainerBuilder $container)
@@ -82,9 +90,7 @@ class AbstractBundle extends AbstractSymfonyBundle
      */
     public function getDirectory(): string
     {
-        return dirname((new \ReflectionClass(get_class($this)))->getFileName())
-               . DIRECTORY_SEPARATOR . '..'
-               . DIRECTORY_SEPARATOR . '..';
+        return dirname((new \ReflectionClass(get_class($this)))->getFileName());
     }
 
     /**
@@ -93,9 +99,9 @@ class AbstractBundle extends AbstractSymfonyBundle
     public function getConfigDirectory(): string
     {
         if ($this->getEnvironment()->isDebugEnabled()) {
-            return $this->getDirectory() . DIRECTORY_SEPARATOR . 'Resources/config';
+            return $this->getResourcesDirectory() . 'config';
         }
 
-        return $this->getDirectory() . DIRECTORY_SEPARATOR . 'Resources/config' . DIRECTORY_SEPARATOR . 'debug';
+        return $this->getResourcesDirectory() . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'debug';
     }
 }
