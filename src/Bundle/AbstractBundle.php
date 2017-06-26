@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Vainyl\Symfony\Bundle;
 
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle as AbstractSymfonyBundle;
 use Vainyl\Core\NameableInterface;
 use Vainyl\Symfony\Application\SymfonyEnvironmentInterface;
@@ -52,6 +53,19 @@ class AbstractBundle extends AbstractSymfonyBundle implements NameableInterface
     }
 
     /**
+     * @inheritDoc
+     */
+    public function build(ContainerBuilder $container)
+    {
+        $definition = (new \Symfony\Component\DependencyInjection\Definition())
+            ->setClass(get_class($this))
+            ->addArgument(new \Symfony\Component\DependencyInjection\Reference('app.environment'))
+            ->addTag('bundle');
+
+        $container->setDefinition(sprintf('bundle.%s', $this->getName()), $definition);
+    }
+
+    /**
      * @return string
      */
     public function getDirectory(): string
@@ -67,9 +81,9 @@ class AbstractBundle extends AbstractSymfonyBundle implements NameableInterface
     public function getConfigDirectory(): string
     {
         if ($this->getEnvironment()->isDebugEnabled()) {
-            return $this->getDirectory() . DIRECTORY_SEPARATOR . 'config';
+            return $this->getDirectory() . DIRECTORY_SEPARATOR . 'Resources/config';
         }
 
-        return $this->getDirectory() . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'debug';
+        return $this->getDirectory() . DIRECTORY_SEPARATOR . 'Resources/config' . DIRECTORY_SEPARATOR . 'debug';
     }
 }
