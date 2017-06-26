@@ -62,7 +62,6 @@ class AbstractBundle extends AbstractSymfonyBundle implements ExtensionInterface
     {
         if (false === class_exists($class = $this->getContainerExtensionClass())) {
             return null;
-
         }
 
         return new $class($this->environment);
@@ -110,10 +109,6 @@ class AbstractBundle extends AbstractSymfonyBundle implements ExtensionInterface
      */
     public function getConfigDirectory(): string
     {
-        if ($this->getEnvironment()->isDebugEnabled()) {
-            return $this->getResourcesDirectory() . 'config';
-        }
-
-        return $this->getResourcesDirectory() . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'debug';
+        return $this->getResourcesDirectory() . DIRECTORY_SEPARATOR . 'config';
     }
 }
