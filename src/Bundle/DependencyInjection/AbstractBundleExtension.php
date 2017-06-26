@@ -10,7 +10,7 @@
  */
 declare(strict_types=1);
 
-namespace Vainyl\Symfony\Extension;
+namespace Vainyl\Symfony\Bundle\DependencyInjection;
 
 use Vainyl\Core\Extension\AbstractExtension;
 
