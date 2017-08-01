@@ -4,7 +4,7 @@
  *
  * PHP Version 7
  *
- * @package   Symfony-bridge
+ * @package   Symfony-Bridge
  * @license   https://opensource.org/licenses/MIT MIT License
  * @link      https://vainyl.com
  */
@@ -12,14 +12,14 @@ declare(strict_types=1);
 
 namespace Vainyl\Symfony\Application;
 
-use Vainyl\Core\AbstractIdentifiable;
+use Vainyl\Core\AbstractArray;
 
 /**
  * Class AbstractSymfonyEnvironment
  *
  * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
  */
-abstract class AbstractSymfonyEnvironment extends AbstractIdentifiable implements SymfonyEnvironmentInterface
+abstract class AbstractSymfonyEnvironment extends AbstractArray implements SymfonyEnvironmentInterface
 {
     private $appDir;
 
