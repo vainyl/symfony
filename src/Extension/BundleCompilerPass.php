@@ -12,17 +12,17 @@ declare(strict_types=1);
 
 namespace Vainyl\Symfony\Extension;
 
-use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 use Vainyl\Core\Exception\MissingRequiredServiceException;
+use Vainyl\Core\Extension\AbstractCompilerPass;
 
 /**
  * Class BundleCompilerPass
  *
  * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
  */
-class BundleCompilerPass implements CompilerPassInterface
+class BundleCompilerPass extends AbstractCompilerPass
 {
     /**
      * @inheritDoc
