@@ -27,7 +27,7 @@ class BundleStorage extends AbstractStorageDecorator
      *
      * @return BundleStorage
      */
-    public function addBundle(BundleInterface $bundle) : BundleStorage
+    public function addBundle(BundleInterface $bundle): BundleStorage
     {
         $this->offsetSet($bundle->getName(), $bundle);
 

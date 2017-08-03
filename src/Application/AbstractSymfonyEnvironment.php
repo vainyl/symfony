@@ -48,7 +48,7 @@ abstract class AbstractSymfonyEnvironment extends AbstractArray implements Symfo
     /**
      * @return string
      */
-    public function getName() : string
+    public function getName(): string
     {
         return $this->env;
     }
@@ -98,7 +98,14 @@ abstract class AbstractSymfonyEnvironment extends AbstractArray implements Symfo
      */
     public function getCacheDirectory(): string
     {
-        return sprintf('%s%s%s%s%s', $this->getApplicationDirectory(), DIRECTORY_SEPARATOR, 'var', DIRECTORY_SEPARATOR, 'cache');
+        return sprintf(
+            '%s%s%s%s%s',
+            $this->getApplicationDirectory(),
+            DIRECTORY_SEPARATOR,
+            'var',
+            DIRECTORY_SEPARATOR,
+            'cache'
+        );
     }
 
     /**
@@ -106,7 +113,14 @@ abstract class AbstractSymfonyEnvironment extends AbstractArray implements Symfo
      */
     public function getLogsDirectory(): string
     {
-        return sprintf('%s%s%s%s%s', $this->getApplicationDirectory(), DIRECTORY_SEPARATOR, 'var', DIRECTORY_SEPARATOR, 'logs');
+        return sprintf(
+            '%s%s%s%s%s',
+            $this->getApplicationDirectory(),
+            DIRECTORY_SEPARATOR,
+            'var',
+            DIRECTORY_SEPARATOR,
+            'logs'
+        );
     }
 
     /**
@@ -124,8 +138,8 @@ abstract class AbstractSymfonyEnvironment extends AbstractArray implements Symfo
     {
         return [
             'app'    => [
-                'dir'  => $this->appDir,
-                'env'  => $this->env,
+                'dir' => $this->appDir,
+                'env' => $this->env,
             ],
             'config' => ['dir' => $this->getConfigDirectory()],
             'debug'  => ['dir' => $this->getDebugDirectory(), 'enabled' => $this->isDebug],
