@@ -25,10 +25,10 @@ interface SymfonyEnvironmentInterface extends EnvironmentInterface
     /**
      * @return BundleInterface[]
      */
-    public function getBundles() : array;
+    public function getBundles(): array;
 
     /**
      * @return string
      */
-    public function getLogsDirectory() : string;
+    public function getLogsDirectory(): string;
 }
