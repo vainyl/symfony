@@ -137,13 +137,13 @@ abstract class AbstractSymfonyEnvironment extends AbstractArray implements Symfo
     public function toArray(): array
     {
         return [
-            'app' => [
+            'app'    => [
                 'dir' => $this->appDir,
                 'env' => $this->env,
             ],
             'config' => ['dir' => $this->getConfigDirectory()],
-            'debug' => ['dir' => $this->getDebugDirectory(), 'enabled' => $this->isDebug],
-            'cache' => ['dir' => $this->getCacheDirectory(), 'enabled' => $this->isCacheable],
+            'debug'  => ['dir' => $this->getDebugDirectory(), 'enabled' => $this->isDebug],
+            'cache'  => ['dir' => $this->getCacheDirectory(), 'enabled' => $this->isCacheable],
         ];
     }
 
