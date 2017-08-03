@@ -40,17 +40,14 @@ class AbstractBundle extends AbstractSymfonyBundle implements ExtensionInterface
     /**
      * @inheritDoc
      */
-    public function getEnvironment(): EnvironmentInterface
+    public function build(ContainerBuilder $container)
     {
-        return $this->environment;
-    }
+        $definition = (new \Symfony\Component\DependencyInjection\Definition())
+            ->setClass(get_class($this))
+            ->addArgument(new \Symfony\Component\DependencyInjection\Reference('app.environment'))
+            ->addTag('bundle');
 
-    /**
-     * @inheritDoc
-     */
-    public function getId(): string
-    {
-        return spl_object_hash($this);
+        $container->setDefinition(sprintf('bundle.%s', $this->getName()), $definition);
     }
 
     /**
@@ -68,32 +65,13 @@ class AbstractBundle extends AbstractSymfonyBundle implements ExtensionInterface
     }
 
     /**
-     * @return string
+     * @param AbstractBundle $obj
+     *
+     * @return bool
      */
-    public function getResourcesDirectory(): string
+    public function equals($obj): bool
     {
-        return $this->getDirectory() . DIRECTORY_SEPARATOR . 'Resources';
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function build(ContainerBuilder $container)
-    {
-        $definition = (new \Symfony\Component\DependencyInjection\Definition())
-            ->setClass(get_class($this))
-            ->addArgument(new \Symfony\Component\DependencyInjection\Reference('app.environment'))
-            ->addTag('bundle');
-
-        $container->setDefinition(sprintf('bundle.%s', $this->getName()), $definition);
-    }
-
-    /**
-     * @return string
-     */
-    public function getDirectory(): string
-    {
-        return dirname((new \ReflectionClass(get_class($this)))->getFileName());
+        return $this->getId() === $obj->getId();
     }
 
     /**
@@ -110,5 +88,45 @@ class AbstractBundle extends AbstractSymfonyBundle implements ExtensionInterface
     public function getConfigDirectory(): string
     {
         return $this->getResourcesDirectory() . DIRECTORY_SEPARATOR . 'config';
+    }
+
+    /**
+     * @return string
+     */
+    public function getDirectory(): string
+    {
+        return dirname((new \ReflectionClass(get_class($this)))->getFileName());
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getEnvironment(): EnvironmentInterface
+    {
+        return $this->environment;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getId(): string
+    {
+        return spl_object_hash($this);
+    }
+
+    /**
+     * @return string
+     */
+    public function getResourcesDirectory(): string
+    {
+        return $this->getDirectory() . DIRECTORY_SEPARATOR . 'Resources';
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function hash()
+    {
+        return $this->getId();
     }
 }
