@@ -11,4 +11,4 @@ services:
     class: Symfony\Bridge\PsrHttpMessage\Factory\HttpFoundationFactory
   bundle.storage:
     class: Vainyl\Symfony\Bundle\Storage\BundleStorage
-    arguments: ['@storage.prototype']
+    arguments: ['@map.prototype']
