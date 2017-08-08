@@ -26,6 +26,6 @@ class SymfonyExtension extends AbstractFrameworkExtension
      */
     public function getCompilerPasses(): array
     {
-        return [new BundleCompilerPass()];
+        return [[new BundleCompilerPass()]];
     }
 }
