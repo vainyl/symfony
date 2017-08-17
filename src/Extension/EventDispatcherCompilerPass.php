@@ -16,7 +16,7 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 use Vainyl\Core\Exception\MissingRequiredServiceException;
-use Vainyl\Symfony\Event\SymfonyEventListenerAdapter;
+use Vainyl\Symfony\Event\SymfonyEventDispatcherAdapter;
 
 /**
  * Class EventDispatcherCompilerPass
@@ -39,7 +39,7 @@ class EventDispatcherCompilerPass implements CompilerPassInterface
         if ($container->hasDefinition('event_dispatcher')) {
             $container
                 ->getDefinition('event_dispatcher')
-                ->setClass(SymfonyEventListenerAdapter::class)
+                ->setClass(SymfonyEventDispatcherAdapter::class)
                 ->setArguments(
                     [
                         new Reference('event.dispatcher'),
@@ -51,7 +51,7 @@ class EventDispatcherCompilerPass implements CompilerPassInterface
         if ($container->hasDefinition('debug.event_dispatcher')) {
             $container
                 ->getDefinition('debug.event_dispatcher')
-                ->setClass(SymfonyEventListenerAdapter::class)
+                ->setClass(SymfonyEventDispatcherAdapter::class)
                 ->setArguments(
                     [
                         new Reference('event.dispatcher'),
