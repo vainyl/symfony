@@ -53,7 +53,11 @@ class SymfonyEventDispatcherAdapter implements SymfonyEventDispatcherInterface
      */
     public function addListener($eventName, $listener, $priority = 0)
     {
-        $this->handlerStorage->addHandler($eventName, $this->listenerFactory->createListener($listener, $this), $priority);
+        $this->handlerStorage->addHandler(
+            $eventName,
+            $this->listenerFactory->createListener($listener, $this),
+            $priority
+        );
     }
 
     /**
@@ -91,7 +95,10 @@ class SymfonyEventDispatcherAdapter implements SymfonyEventDispatcherInterface
      */
     public function getListenerPriority($eventName, $listener)
     {
-        return 0;
+        return $this->handlerStorage->getListenerPriority(
+            $eventName,
+            $this->listenerFactory->createListener($listener, $this)
+        );
     }
 
     /**
@@ -123,7 +130,7 @@ class SymfonyEventDispatcherAdapter implements SymfonyEventDispatcherInterface
      */
     public function removeListener($eventName, $listener)
     {
-        $this->handlerStorage->removeHandler($eventName, new SymfonyEventListenerAdapter($listener, $this));
+        $this->handlerStorage->removeHandler($eventName, $this->listenerFactory->createListener($listener, $this));
     }
 
     /**
