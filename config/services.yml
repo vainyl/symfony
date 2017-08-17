@@ -12,3 +12,8 @@ services:
   bundle.storage:
     class: Vainyl\Symfony\Bundle\Storage\BundleStorage
     arguments: ['@map.prototype']
+  event.listener.factory.symfony:
+    class: Vainyl\Symfony\Event\SymfonyEventListenerFactory
+  event.dispatcher.symfony:
+    class: Vainyl\Symfony\Event\SymfonyEventDispatcherAdapter
+    arguments: ['@event.dispatcher', '@event.handler.storage', '@event.listener.factory.symfony']
