@@ -12,10 +12,11 @@ declare(strict_types=1);
 
 namespace Vainyl\Symfony\Extension;
 
-use Symfony\Component\DependencyInjection\Alias;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Reference;
 use Vainyl\Core\Exception\MissingRequiredServiceException;
+use Vainyl\Symfony\Event\SymfonyEventListenerAdapter;
 
 /**
  * Class EventDispatcherCompilerPass
@@ -34,13 +35,28 @@ class EventDispatcherCompilerPass implements CompilerPassInterface
         }
 
         if ($container->hasDefinition('event_dispatcher')) {
-            $container->removeDefinition('event_dispatcher');
-            $container->setAlias('event_dispatcher', new Alias('event.dispatcher.symfony'));
+            $container
+                ->getDefinition('event_dispatcher')
+                ->setClass(SymfonyEventListenerAdapter::class)
+                ->setArguments(
+                    [
+                        new Reference('event.dispatcher'),
+                        new Reference('event.handler.storage'),
+                        new Reference('event.listener.factory.symfony'),
+                    ]
+                );
         }
-
         if ($container->hasDefinition('debug.event_dispatcher')) {
-            $container->removeDefinition('event_dispatcher');
-            $container->setAlias('debug.event_dispatcher', new Alias('event.dispatcher.symfony'));
+            $container
+                ->getDefinition('debug.event_dispatcher')
+                ->setClass(SymfonyEventListenerAdapter::class)
+                ->setArguments(
+                    [
+                        new Reference('event.dispatcher'),
+                        new Reference('event.handler.storage'),
+                        new Reference('event.listener.factory.symfony'),
+                    ]
+                );
         }
     }
 }
