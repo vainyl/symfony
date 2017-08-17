@@ -31,8 +31,8 @@ class SymfonyEventListenerFactory extends AbstractIdentifiable implements Symfon
         SymfonyEventDispatcherInterface $eventDispatcher
     ): EventHandlerInterface {
         $symfonyListener = $listener;
-        if (is_array($listener) && isset($listener[0]) && $listener[0] instanceof \Closure) {
-            $symfonyListener = $listener[0]();
+        if (is_array($symfonyListener) && isset($symfonyListener[0]) && $symfonyListener[0] instanceof \Closure) {
+            $symfonyListener[0] = $listener[0]();
         }
 
         return new SymfonyEventListenerAdapter($symfonyListener, $eventDispatcher);
