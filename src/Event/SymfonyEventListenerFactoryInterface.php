@@ -24,13 +24,13 @@ use Vainyl\Event\EventHandlerInterface;
 interface SymfonyEventListenerFactoryInterface extends IdentifiableInterface
 {
     /**
-     * @param callable                 $listener
+     * @param callable                        $listener
      * @param SymfonyEventDispatcherInterface $eventDispatcher
      *
      * @return EventHandlerInterface
      */
     public function createListener(
-        callable $listener,
+        $listener,
         SymfonyEventDispatcherInterface $eventDispatcher
     ): EventHandlerInterface;
 }

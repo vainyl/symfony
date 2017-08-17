@@ -27,7 +27,7 @@ class SymfonyEventListenerFactory extends AbstractIdentifiable implements Symfon
      * @inheritDoc
      */
     public function createListener(
-        callable $listener,
+        $listener,
         SymfonyEventDispatcherInterface $eventDispatcher
     ): EventHandlerInterface {
         $symfonyListener = $listener;
