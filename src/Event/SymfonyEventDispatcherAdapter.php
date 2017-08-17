@@ -29,15 +29,23 @@ class SymfonyEventDispatcherAdapter implements SymfonyEventDispatcherInterface
 
     private $handlerStorage;
 
+    private $listenerFactory;
+
     /**
      * SymfonyEventDispatcherAdapter constructor.
      *
-     * @param EventDispatcherInterface $eventDispatcher
+     * @param EventDispatcherInterface             $eventDispatcher
+     * @param EventHandlerStorageInterface         $handlerStorage
+     * @param SymfonyEventListenerFactoryInterface $listenerFactory
      */
-    public function __construct(EventDispatcherInterface $eventDispatcher, EventHandlerStorageInterface $handlerStorage)
-    {
+    public function __construct(
+        EventDispatcherInterface $eventDispatcher,
+        EventHandlerStorageInterface $handlerStorage,
+        SymfonyEventListenerFactoryInterface $listenerFactory
+    ) {
         $this->eventDispatcher = $eventDispatcher;
         $this->handlerStorage = $handlerStorage;
+        $this->listenerFactory = $listenerFactory;
     }
 
     /**
@@ -45,7 +53,7 @@ class SymfonyEventDispatcherAdapter implements SymfonyEventDispatcherInterface
      */
     public function addListener($eventName, $listener, $priority = 0)
     {
-        $this->handlerStorage->addHandler($eventName, new SymfonyEventListenerAdapter($listener, $this));
+        $this->handlerStorage->addHandler($eventName, $this->listenerFactory->createListener($listener, $this), $priority);
     }
 
     /**
@@ -71,6 +79,10 @@ class SymfonyEventDispatcherAdapter implements SymfonyEventDispatcherInterface
      */
     public function dispatch($eventName, Event $event = null)
     {
+        if ($event->isPropagationStopped()) {
+            return;
+        }
+
         $this->eventDispatcher->dispatch(new SymfonyEventAdapter($eventName, $event));
     }
 

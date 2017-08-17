@@ -34,7 +34,7 @@ class SymfonyEventListenerAdapter extends AbstractIdentifiable implements EventH
      * @param callable                        $listener
      * @param SymfonyEventDispatcherInterface $eventDispatcher
      */
-    public function __construct(callable $listener, SymfonyEventDispatcherInterface $eventDispatcher)
+    public function __construct($listener, SymfonyEventDispatcherInterface $eventDispatcher)
     {
         $this->listener = $listener;
         $this->eventDispatcher = $eventDispatcher;
@@ -47,7 +47,7 @@ class SymfonyEventListenerAdapter extends AbstractIdentifiable implements EventH
      */
     public function handle(EventInterface $event): EventHandlerInterface
     {
-        call_user_func($this->listener, $event->getSymfonyEvent(), $event->getName(), $this->eventDispatcher);
+        call_user_func($this->listener, $event->getName(), $event->getSymfonyEvent(), $this->eventDispatcher);
 
         return $this;
     }
