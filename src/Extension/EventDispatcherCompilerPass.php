@@ -30,8 +30,10 @@ class EventDispatcherCompilerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if (false === $container->hasDefinition('event.dispatcher.symfony')) {
-            throw new MissingRequiredServiceException($container, 'event.dispatcher.symfony');
+        foreach (['event.dispatcher', 'event.handler.storage', 'event.handler.storage'] as $requiredService) {
+            if (false === $container->hasDefinition($requiredService)) {
+                throw new MissingRequiredServiceException($container, $requiredService);
+            }
         }
 
         if ($container->hasDefinition('event_dispatcher')) {
