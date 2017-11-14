@@ -47,6 +47,11 @@ class SymfonyEventListenerAdapter extends AbstractIdentifiable implements EventH
      */
     public function handle(EventInterface $event): EventHandlerInterface
     {
+        // Ad-hoc solution. Vainyl\Event\EventDispatcher can't handle propagation stopped case
+        if ($event->getSymfonyEvent()->isPropagationStopped()) {
+            return $this;
+        }
+
         call_user_func($this->listener, $event->getSymfonyEvent(), $event->getName(), $this->eventDispatcher);
 
         return $this;
