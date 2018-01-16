@@ -37,7 +37,7 @@ class SymfonyEventListenerAdapter extends AbstractIdentifiable implements EventH
      */
     public function __construct($listener, SymfonyEventDispatcherInterface $eventDispatcher)
     {
-        $this->listener = $listener;
+        $this->listener        = $listener;
         $this->eventDispatcher = $eventDispatcher;
     }
 
@@ -59,13 +59,7 @@ class SymfonyEventListenerAdapter extends AbstractIdentifiable implements EventH
     }
 
     /**
-     * Implementation for symfony event dispatcher.
-     *
-     * @param SymfonyEvent                    $event
-     * @param string                          $eventName
-     * @param SymfonyEventDispatcherInterface $dispatcher
-     *
-     * @return SymfonyEventListenerAdapter
+     * @inheritDoc
      */
     public function __invoke(SymfonyEvent $event, string $eventName, SymfonyEventDispatcherInterface $dispatcher)
     {
@@ -74,4 +68,3 @@ class SymfonyEventListenerAdapter extends AbstractIdentifiable implements EventH
         return $this;
     }
 }
-
