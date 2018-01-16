@@ -14,3 +14,4 @@ services:
     arguments: ['@map.prototype']
   event.listener.factory.symfony:
     class: Vainyl\Symfony\Event\SymfonyEventListenerFactory
+    arguments: ['@map.prototype']
