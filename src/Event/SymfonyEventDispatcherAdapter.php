@@ -54,9 +54,13 @@ class SymfonyEventDispatcherAdapter implements SymfonyEventDispatcherInterface
      */
     public function addListener($eventName, $listener, $priority = 0)
     {
+        if (!$listener instanceof EventHandlerInterface) {
+            $listener = $this->listenerFactory->createListener($listener, $this);
+        }
+
         $this->handlerStorage->addHandler(
             $eventName,
-            $this->listenerFactory->createListener($listener, $this),
+            $listener,
             $priority
         );
     }
