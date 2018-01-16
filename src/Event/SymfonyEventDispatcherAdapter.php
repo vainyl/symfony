@@ -16,6 +16,7 @@ use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface as SymfonyEventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Vainyl\Event\EventDispatcherInterface;
+use Vainyl\Event\EventHandlerInterface;
 use Vainyl\Event\Storage\EventHandlerStorageInterface;
 
 /**
@@ -44,7 +45,7 @@ class SymfonyEventDispatcherAdapter implements SymfonyEventDispatcherInterface
         SymfonyEventListenerFactoryInterface $listenerFactory
     ) {
         $this->eventDispatcher = $eventDispatcher;
-        $this->handlerStorage = $handlerStorage;
+        $this->handlerStorage  = $handlerStorage;
         $this->listenerFactory = $listenerFactory;
     }
 
@@ -69,10 +70,10 @@ class SymfonyEventDispatcherAdapter implements SymfonyEventDispatcherInterface
             if (is_string($params)) {
                 $this->addListener($eventName, [$subscriber, $params]);
             } elseif (is_string($params[0])) {
-                $this->addListener($eventName, [$subscriber, $params[0]], isset($params[1]) ? $params[1] : 0);
+                $this->addListener($eventName, [$subscriber, $params[0]], $params[1] ?? 0);
             } else {
                 foreach ($params as $listener) {
-                    $this->addListener($eventName, [$subscriber, $listener[0]], isset($listener[1]) ? $listener[1] : 0);
+                    $this->addListener($eventName, [$subscriber, $listener[0]], $listener[1] ?? 0);
                 }
             }
         }
@@ -95,9 +96,13 @@ class SymfonyEventDispatcherAdapter implements SymfonyEventDispatcherInterface
      */
     public function getListenerPriority($eventName, $listener)
     {
+        if (!$listener instanceof EventHandlerInterface) {
+            $listener = $this->listenerFactory->createListener($listener, $this);
+        }
+
         return $this->handlerStorage->getListenerPriority(
             $eventName,
-            $this->listenerFactory->createListener($listener, $this)
+            $listener
         );
     }
 
@@ -107,7 +112,7 @@ class SymfonyEventDispatcherAdapter implements SymfonyEventDispatcherInterface
     public function getListeners($eventName = null)
     {
         if (null === $eventName) {
-            return $this->handlerStorage;
+            return iterator_to_array($this->handlerStorage);
         }
 
         return $this->handlerStorage->getHandlers((string)$eventName);
@@ -130,7 +135,11 @@ class SymfonyEventDispatcherAdapter implements SymfonyEventDispatcherInterface
      */
     public function removeListener($eventName, $listener)
     {
-        $this->handlerStorage->removeHandler($eventName, $this->listenerFactory->createListener($listener, $this));
+        if (!$listener instanceof EventHandlerInterface) {
+            $listener = $this->listenerFactory->createListener($listener, $this);
+        }
+
+        $this->handlerStorage->removeHandler($eventName, $listener);
     }
 
     /**
@@ -144,7 +153,12 @@ class SymfonyEventDispatcherAdapter implements SymfonyEventDispatcherInterface
                     $this->removeListener($eventName, [$subscriber, $listener[0]]);
                 }
             } else {
-                $this->removeListener($eventName, [$subscriber, is_string($params) ? $params : $params[0]]);
+                $this->removeListener($eventName, [
+                    $subscriber,
+                    is_string($params)
+                        ? $params
+                        : $params[0]
+                ]);
             }
         }
     }

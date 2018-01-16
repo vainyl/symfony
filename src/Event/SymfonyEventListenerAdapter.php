@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Vainyl\Symfony\Event;
 
 use Symfony\Component\EventDispatcher\EventDispatcherInterface as SymfonyEventDispatcherInterface;
+use Symfony\Component\EventDispatcher\Event as SymfonyEvent;
 use Vainyl\Core\AbstractIdentifiable;
 use Vainyl\Event\EventHandlerInterface;
 use Vainyl\Event\EventInterface;
@@ -56,4 +57,21 @@ class SymfonyEventListenerAdapter extends AbstractIdentifiable implements EventH
 
         return $this;
     }
+
+    /**
+     * Implementation for symfony event dispatcher.
+     *
+     * @param SymfonyEvent                    $event
+     * @param string                          $eventName
+     * @param SymfonyEventDispatcherInterface $dispatcher
+     *
+     * @return SymfonyEventListenerAdapter
+     */
+    public function __invoke(SymfonyEvent $event, string $eventName, SymfonyEventDispatcherInterface $dispatcher)
+    {
+        call_user_func($this->listener, $event, $eventName, $dispatcher);
+
+        return $this;
+    }
 }
+
